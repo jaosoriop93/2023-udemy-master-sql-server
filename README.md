@@ -1,5 +1,22 @@
 <a name="top"></a>
-# Máster en SQL Server: Desde Cero a Nivel Profesional [2023]
+# Máster en SQL Server: Desde Cero a Nivel Profesional 2023
+
+- [Máster en SQL Server: Desde Cero a Nivel Profesional 2023](#máster-en-sql-server-desde-cero-a-nivel-profesional-2023)
+  - [1. Configuración](#1-configuración)
+    - [Instalación de SQL Server](#instalación-de-sql-server)
+    - [Verificar la correta instalación de SQL Server](#verificar-la-correta-instalación-de-sql-server)
+    - [Instalación de SQL Server Management Studio (SSMS)](#instalación-de-sql-server-management-studio-ssms)
+    - [Conexión al motor SQL](#conexión-al-motor-sql)
+    - [Conociendo Microsoft SQL Management Studio](#conociendo-microsoft-sql-management-studio)
+    - [Atajos de teclado más utilizados](#atajos-de-teclado-más-utilizados)
+          - [General:](#general)
+          - [Navegación y edición:](#navegación-y-edición)
+          - [Resultados y cuadrícula:](#resultados-y-cuadrícula)
+  - [2. Fundamentos y Estructura de Base de Datos](#2-fundamentos-y-estructura-de-base-de-datos)
+        - [Valor NULL](#valor-null)
+        - [Primary Key (PK)](#primary-key-pk)
+        - [Foreign Key (FK)](#foreign-key-fk)
+
 
 ## 1. Configuración
 ### Instalación de SQL Server
@@ -132,3 +149,15 @@ Definiciones y reglas generales
 3. Una tabla puede tener más de un campo FK
 
 
+
+Códigos de GIT usados:
+~~~
+git init
+git config --global user.email "jaosoriop93@gmail.com"   
+git config --global user.name "jaosoriop93"                
+git commit -m "Primer carga a GIT del curso de SQL Server"   
+git remote add origin https://github.com/jaosoriop93/2023-udemy-master-sql-server.git
+git add .
+git mv notas.md README.md
+git push -u origin master
+~~~
