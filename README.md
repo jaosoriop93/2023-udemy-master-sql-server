@@ -14,8 +14,11 @@
           - [Resultados y cuadrícula:](#resultados-y-cuadrícula)
   - [2. Fundamentos y Estructura de Base de Datos](#2-fundamentos-y-estructura-de-base-de-datos)
         - [Valor NULL](#valor-null)
-        - [Primary Key (PK)](#primary-key-pk)
-        - [Foreign Key (FK)](#foreign-key-fk)
+        - [Primary Key (PK) \[Subir\] ](#primary-key-pk-subir-)
+        - [Foreign Key (FK) \[Subir\] ](#foreign-key-fk-subir-)
+        - [Propiedad IDENTITY \[Subir\]](#propiedad-identity-subir)
+        - [Normalización de tablas](#normalización-de-tablas)
+  - [Códigos de GIT usados:](#códigos-de-git-usados)
 
 
 ## 1. Configuración
@@ -120,9 +123,7 @@ Un valor NULL representa la ausencia de un valor en una columna de una tabla. Es
 
 Los valores NULL son diferentes de los valores en blanco o los valores numéricos como el 0 (cero), ya que estos últimos son valores válidos que se pueden asignar a una columna. Por ejemplo, si una columna de la tabla de Impuestos, algunos de esos valores pueden contener 0 (cero), mientras que otros pueden no tener ningún valor de impuesto asignado aún, en cuyo caso la columna tendría el valor NULL.
 
-[Subir](#top)
-<a name="Primary Key (PK)"></a>
-##### Primary Key (PK)
+##### Primary Key (PK) [[Subir](#top)] <a name="Primary Key (PK)"></a>
 [Recursos de la clase](./RecursosCurso/S04.PrimaryKey.pdf)
 
 Definiciones y reglas generales
@@ -133,10 +134,7 @@ tabla.
 3. Una tabla puede tener más de un campo PK, a la que llamaremos CLAVE COMPUESTA
 4. Sea SIMPLE o COMPUESTA, cada tabla solo podrá tener una clave primaria (PRIMARY KEY). Es decir que sólo habrá una única clave primaria de ese tipo. No se podrá crear otra combinación.
 
-
-[Subir](#top)
-<a name="Foreign Key (FK)"></a>
-##### Foreign Key (FK)
+##### Foreign Key (FK) [[Subir](#top)] <a name="Foreign Key (FK)"></a> 
 [Recursos de la clase 1](./RecursosCurso/S04.ForeignKey.pdf)
 [Recursos de la clase 2](./RecursosCurso/S04.Restricciones.pdf)
 
@@ -146,11 +144,31 @@ Sirve para crear reglas de integridad referencial. Los valores con que se dilige
 Definiciones y reglas generales
 1. La clave foránea o foreign key, debe ser del mismo tipo de dato que su campo relacionado.
 2. El valor del campo definido como FK puede ser NULL
+   1. Si no le incluyo ningún valor a un registro, no estoy violando las reglas del FK.
 3. Una tabla puede tener más de un campo FK
 
 
+<a name="Propiedad IDENTITY"></a>
+##### Propiedad IDENTITY [[Subir](#top)]
+[Recurso de la clase](./RecursosCurso/S04.Identity.pdf)
 
-Códigos de GIT usados:
+- La propiedad Identity se puede establecer a uno o más campos de una tabla determinada.
+- Un campo con propiedad Identity activada, hará que su valor se incremente automáticamente a medida que se inserten registros en la tabla.
+- Es por ello que, para que un campo pueda ser Identity, su tipo de dato debe ser numérico.
+- Por lo general establecemos Identity a un campo que es Primary Key. Con esto logramos que su valor no se duplique, generando registros unívocos (únicos)
+
+Se usa de la siguiente forma, donde el primer valor es el SEED, y dice que arrancará desde el valor de 1, y el segundo valor es el INCREMENT, donde cada registro será de la forma 1, 2, 3, 4, etc.
+
+~~~
+[nombrecampo] [int] IDENTITY(1,1)
+~~~
+
+[Subir](#top)
+<a name="Normalización de tablas"></a>
+##### Normalización de tablas
+[Recurso de la clase](./RecursosCurso/S04.Normalizacion2.pdf)
+
+## Códigos de GIT usados:
 ~~~
 git init
 git config --global user.email "jaosoriop93@gmail.com"   
