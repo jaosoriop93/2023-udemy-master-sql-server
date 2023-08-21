@@ -19,6 +19,11 @@
   - [Tabla Turno Estado](#tabla-turno-estado)
   - [Tabla Especialidad](#tabla-especialidad)
   - [Tabla Pago](#tabla-pago)
+  - [Tabla Pago-Paciente](#tabla-pago-paciente)
+  - [Tabla Médico](#tabla-médico)
+  - [Tabla Médico-Especialidad](#tabla-médico-especialidad)
+  - [Tabla Concepto](#tabla-concepto)
+  - [Tipos de datos de usuario](#tipos-de-datos-de-usuario)
 
 
 Se crea una nueva DATABASE llamada CentroMedico.
@@ -221,4 +226,106 @@ CREATE TABLE Pago(
 ~~~
 
 Al ejecutar este código, se crea la siguiente tabla:
+
 ![Pago](./SQLDATA/P1_Pago.png)
+
+
+[Subir](#top)
+## Tabla Pago-Paciente
+[Recursos de la clase](./RecursosCurso/S05.CREATE_TABLE_PagoPaciente.sql)
+
+Se crea por medio de T-SQL
+
+~~~
+CREATE TABLE PagoPaciente(
+	idPago INT NOT NULL,
+	idPaciente int NOT NULL,
+	idTurno INT NOT NULL,
+	PRIMARY KEY (idPago, idPaciente, idTurno)
+);
+~~~
+
+Al ejecutarse, se genera lo siguiente:
+
+![Pago-Paciente](./SQLDATA/P1_PagoPaciente.png)
+
+[Subir](#top)
+## Tabla Médico
+[Recursos de la clase](./RecursosCurso/S04.CREATE_TABLE_Medico.sql)
+
+Deberás crear la tabla Medico, que guardará los especialistas.
+Deberá contar solo con 3 campos, idMedico, Nombre y Apellido, cuyos tipos de dato deben ser INT y VARCHAR(50)  y VARCHAR(50) respectivamente.
+La Primary Key deberá ser el campo idMedico y además deberá tener la propiedad IDENTITY activada.
+Recuerda: No dudes en consultar cualquier duda que tengas.
+Adjuntamos el script, solo para que puedas verificar el ejercicio realizado.
+
+~~~
+CREATE TABLE Medico(
+	idMedico INT NOT NULL IDENTITY(1,1) PRIMARY KEY,
+	nombre VARCHAR(50) NOT NULL,
+	apellido VARCHAR(50) NOT NULL,
+);
+~~~
+
+Al ejecutarse, se genera lo siguiente:
+
+![Médico](./SQLDATA/P1_Medico.png)
+
+[Subir](#top)
+## Tabla Médico-Especialidad
+[Recursos de la clase](./RecursosCurso/S04.CREATE_TABLE_MedicoEspecialidad.sql)
+
+Deberás crear la tabla MedicoEspecialidad, que guardará las relaciones entre especialidades de los Médicos.
+Deberá contar con 3 campos, idMedico, idEspecialidad y Descripcion, cuyos tipos de dato deben ser INT , INT y VARCHAR(50) respectivamente.
+La Primary Key deberá ser  Compuesta por los campos idMedico e idEspecialidad.
+Recuerda: No dudes en consultar cualquier duda que tengas.
+Adjuntamos el script, solo para que puedas verificar el ejercicio realizado.
+
+~~~
+CREATE TABLE MedicoEspecialidad(
+	idMedico int NOT NULL,
+	idEspecialidad int NOT NULL,
+	descripcion VARCHAR(50) NOT NULL,
+	PRIMARY KEY(idMedico, idEspecialidad)
+);
+~~~
+
+Al ejecutarse, se genera lo siguiente:
+
+![Médico-Especialidad](./SQLDATA/P1_MedicoEspecialidad.png)
+
+[Subir](#top)
+## Tabla Concepto
+[Recursos de la clase](./RecursosCurso/S05.CREATE_TABLE_Concepto.sql)
+
+~~~
+CREATE TABLE Concepto(
+	idConcepto tinyint IDENTITY(1,1) NOT NULL PRIMARY KEY,
+	descripcion varchar(100)
+);
+~~~
+
+![Concepto](./SQLDATA/P1_Concepto.png)
+
+[Subir](#top)
+## Tipos de datos de usuario
+[Recursos de la clase](./RecursosCurso/S05.CREATE_TYPES.sql)
+
+En la BD, carpeta *Programmability*, luego em *Types*, luego en *User-Defined Data Types*, clic derecho y en *New User-Defined Data Types*
+
+![Tipos de datos](./SQLDATA/P1_TiposDatos.png)
+
+También es posible desde T-SQL crear los tipos
+~~~
+CREATE TYPE paciente from int not null;
+CREATE TYPE medico from int not null;
+CREATE TYPE turno from int not null;
+CREATE TYPE historia from int not null;
+CREATE TYPE observacion from VARCHAR(1000);
+~~~
+
+Crear estos tipos de datos permiten tener mayor control sobre la creación de los tipos de datos. Como en varias de las tablas se llama, por ejemplo, al **idPaciente**, esto evita errores.
+
+Se procede ahora a cambiar el tipo de dato donde corresponda. Se abre, por ejemplo, la tabla de Paciente:
+
+![Paciente Modificado](./SQLDATA/P1_Paciente_MOD.png)
