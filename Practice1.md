@@ -76,9 +76,11 @@ Se da guardar de nuevo y ya no saldrá la ventana de advertencia.
 Al abrir el *Design*, se selecciona el campo deseado y en la barra de menú se da clic sobre el ícono de una llave.
 
 Antes de:
+
 ![Crear Primary Key](SQLDATA/P1_SetPrimaryKey.png)
 
 Luego de crearla, se evidencia como se deshabilita automáticamente el campo de *Allow nulls*, pues todo campo deberá tener una PK. Al frente del nombre de la columna, se ha creado una <span style="color:orange">llave amarilla</span>.
+
 ![Primary Key creada](SQLDATA/P1_SetPrimaryKey_OK.png)
 
 En el *Object Explorer* se crea en la carpeta de *Keys*, la llave de paciente, de la forma **PK_Paciente**, un nombre que SQL Server le da por defecto.
@@ -157,6 +159,7 @@ Adjuntamos el script, solo para que puedas verificar el ejercicio realizado.
 [Recursos de la clase](./RecursosCurso/S05.CREATE_TABLE_Turno.sql)
 
 Para esta tabla se aprovecha el tipo SMALLINT, dado que se espera que la cantidad de "estados" no sea muy elevado. Se gana espacio en memoria.
+
 ![Turno](./SQLDATA/P1_Turno.png)
 
 
@@ -165,6 +168,7 @@ Para esta tabla se aprovecha el tipo SMALLINT, dado que se espera que la cantida
 [Recursos de la clase](./RecursosCurso/S05.CREATE_TABLE_TurnoPaciente.sql)
 
 Turno - Paciente - Médico
+
 ![País](./SQLDATA/P1_TurnoPaciente.png)
 
 [Subir](#top)
