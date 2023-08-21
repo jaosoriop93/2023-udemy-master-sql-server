@@ -20,9 +20,9 @@
     <LogicalFolder Name="Queries" Type="0" Sorted="true">
       <Items>
         <FileNode Name="SQLQuery3.sql">
-          <AssociatedConnectionMoniker />
-          <AssociatedConnSrvName />
-          <AssociatedConnUserName />
+          <AssociatedConnectionMoniker>8c91a03d-f9b4-46c0-a305-b5dcc79ff907:DESKTOP-BLJKR65\MSSQLSERVER2022:False:sa</AssociatedConnectionMoniker>
+          <AssociatedConnSrvName>DESKTOP-BLJKR65\MSSQLSERVER2022</AssociatedConnSrvName>
+          <AssociatedConnUserName>sa</AssociatedConnUserName>
           <FullPath>SQLQuery3.sql</FullPath>
         </FileNode>
       </Items>

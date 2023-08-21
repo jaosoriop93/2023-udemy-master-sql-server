@@ -9,16 +9,20 @@
     - [Conexión al motor SQL](#conexión-al-motor-sql)
     - [Conociendo Microsoft SQL Management Studio](#conociendo-microsoft-sql-management-studio)
     - [Atajos de teclado más utilizados](#atajos-de-teclado-más-utilizados)
-          - [General:](#general)
-          - [Navegación y edición:](#navegación-y-edición)
-          - [Resultados y cuadrícula:](#resultados-y-cuadrícula)
+      - [General](#general)
+      - [Navegación y edición](#navegación-y-edición)
+      - [Resultados y cuadrícula](#resultados-y-cuadrícula)
   - [2. Fundamentos y Estructura de Base de Datos](#2-fundamentos-y-estructura-de-base-de-datos)
-        - [Valor NULL](#valor-null)
-        - [Primary Key (PK) \[Subir\] ](#primary-key-pk-subir-)
-        - [Foreign Key (FK) \[Subir\] ](#foreign-key-fk-subir-)
-        - [Propiedad IDENTITY \[Subir\]](#propiedad-identity-subir)
-        - [Normalización de tablas](#normalización-de-tablas)
-  - [Códigos de GIT usados:](#códigos-de-git-usados)
+    - [Valor NULL](#valor-null)
+    - [Primary Key (PK)](#primary-key-pk)
+    - [Foreign Key (FK)](#foreign-key-fk)
+    - [Propiedad IDENTITY](#propiedad-identity)
+    - [Normalización de tablas](#normalización-de-tablas)
+      - [Primera 1FN](#primera-1fn)
+      - [Segunda 2FN](#segunda-2fn)
+      - [Tercera 3FN](#tercera-3fn)
+    - [Tipos de datos](#tipos-de-datos)
+  - [Códigos de GIT usados](#códigos-de-git-usados)
 
 
 ## 1. Configuración
@@ -85,7 +89,7 @@ Entorno que nos permite conectarnos a distintas instancias de bases de datos y p
 ### Atajos de teclado más utilizados
 Aquí tienes una lista de algunos atajos de teclado muy utilizados en SQL Server Management Studio (SSMS):
 
-###### General:
+#### General
 - Ctrl + N: Abrir una nueva ventana de consulta.
 - Ctrl + O: Abrir un archivo de script.
 - Ctrl + S: Guardar el archivo de script actual.
@@ -98,12 +102,12 @@ Aquí tienes una lista de algunos atajos de teclado muy utilizados en SQL Server
 - Ctrl + K + C: Comentar la selección.
 - Ctrl + K + U: Descomentar la selección.
 
-###### Navegación y edición:
+#### Navegación y edición
 - Ctrl + G: Ir a un número de línea específico dentro del script.
 - Ctrl + Shift + Flecha izquierda/derecha: Seleccionar palabras completas a la izquierda/derecha del cursor.
 - Shift + Flecha arriba/abajo: Seleccionar bloques de texto hacia arriba/abajo.
 
-###### Resultados y cuadrícula:
+#### Resultados y cuadrícula
 - Ctrl + D: Modo de visualización de cuadrícula.
 - Ctrl + T: Modo de visualización de texto.
 
@@ -118,12 +122,13 @@ Base de datos: símil con una biblioteca
 Similar a EXCEL. Misma organización.
 
 [Subir](#top)
-##### Valor NULL
+### Valor NULL
 Un valor NULL representa la ausencia de un valor en una columna de una tabla. Esto indica que no se ha asignado ningún valor en esa columna determinada.
 
 Los valores NULL son diferentes de los valores en blanco o los valores numéricos como el 0 (cero), ya que estos últimos son valores válidos que se pueden asignar a una columna. Por ejemplo, si una columna de la tabla de Impuestos, algunos de esos valores pueden contener 0 (cero), mientras que otros pueden no tener ningún valor de impuesto asignado aún, en cuyo caso la columna tendría el valor NULL.
 
-##### Primary Key (PK) [[Subir](#top)] <a name="Primary Key (PK)"></a>
+[Subir](#top)
+### Primary Key (PK)
 [Recursos de la clase](./RecursosCurso/S04.PrimaryKey.pdf)
 
 Definiciones y reglas generales
@@ -134,7 +139,8 @@ tabla.
 3. Una tabla puede tener más de un campo PK, a la que llamaremos CLAVE COMPUESTA
 4. Sea SIMPLE o COMPUESTA, cada tabla solo podrá tener una clave primaria (PRIMARY KEY). Es decir que sólo habrá una única clave primaria de ese tipo. No se podrá crear otra combinación.
 
-##### Foreign Key (FK) [[Subir](#top)] <a name="Foreign Key (FK)"></a> 
+[Subir](#top)
+### Foreign Key (FK)
 [Recursos de la clase 1](./RecursosCurso/S04.ForeignKey.pdf)
 [Recursos de la clase 2](./RecursosCurso/S04.Restricciones.pdf)
 
@@ -147,9 +153,8 @@ Definiciones y reglas generales
    1. Si no le incluyo ningún valor a un registro, no estoy violando las reglas del FK.
 3. Una tabla puede tener más de un campo FK
 
-
-<a name="Propiedad IDENTITY"></a>
-##### Propiedad IDENTITY [[Subir](#top)]
+[Subir](#top)
+### Propiedad IDENTITY
 [Recurso de la clase](./RecursosCurso/S04.Identity.pdf)
 
 - La propiedad Identity se puede establecer a uno o más campos de una tabla determinada.
@@ -164,11 +169,49 @@ Se usa de la siguiente forma, donde el primer valor es el SEED, y dice que arran
 ~~~
 
 [Subir](#top)
-<a name="Normalización de tablas"></a>
-##### Normalización de tablas
+### Normalización de tablas
 [Recurso de la clase](./RecursosCurso/S04.Normalizacion2.pdf)
+Ventajas: 
+- Se evitan problemas en la inserción, borrado y modificación de datos
+- Si se amplia una BD, tendrá menos cambios por hacerse en la estructura, menos modificación en procesos que se ejecutan desde una GUI (Interfaz de usuario)
 
-## Códigos de GIT usados:
+#### Primera 1FN
+Se dice que una Tabla está en Primera Forma Normal si y sólo si todos sus Campos (Atributos) contienen valores atómicos. Esto quiere decir que cada Atributo de la Tabla deberá tener un único valor para una ocurrencia de la Entidad. No se permitirán grupos repetitivos.
+Registros sin valores duplicados
+
+Para lograr esto, en el Recurso de clase, se añade un ID al paciente, de manera que sean únicos (dos personas pueden tener el mismo nombre)
+
+Se genera una tabla de médico
+Se genera una tabla de país
+
+#### Segunda 2FN
+Una Tabla está en Segunda Forma Normal si y sólo si está en 1FN y todos los Atributos no clave dependen por completo de la clave primaria.
+
+Para lograr esto, en el Recurso de clase, se analiza uno a uno los campos si dependen del PK del paciente. El nombre del paciente y el año dependen del PK del paciente. El idMedico y el nombre del médico NO dependen del ID del Paciente, no tienen una relación directa. Un paciente puede tomar o no cita con un médico, no es obligatorio que esta relación sea estricta totalmente.
+
+Se genera una tabla INTERMEDIA de turnos, que relacionará el paciente y el médico.
+
+#### Tercera 3FN
+Una Tabla está en Tercera Forma Normal si y sólo si está en 2FN y los atributos no clave son independientes entre sí. Esto quiere decir que los valores de los atributos dependen sólo de la clave primaria y no dependen de otro Atributo no clave. El valor del Atributo no debe depender del valor de otro Atributo no clave.
+
+Para lograr esto, en el Recurso de clase, ya se analizó que no cumple la 2FN. Si se analiza en detalle los campos idMedico y medico, se identifica que si cambiamos el idMedico, se debe luego el nombre del médico, así que estos campos deben quitarse de esta tabla, no son atributos clave de esta tabla, tal vez de otra tabla, y aparte, cambiar uno implica cambiar otro atributo y que no es clave.
+
+[Subir](#top)
+### Tipos de datos
+[Recurso de la clase](./RecursosCurso/S03-TiposdedatosSQL.pdf)
+Formato del valor que puede almacenarse en un campo de una tabla.
+Los más usados:
+- Numéricos:
+  - Enteros: INT, TINYINT (0 al 255), BIT (1 ó 0)
+  - Decimales: MONEY, DECIMAL
+- Texto:
+  - CHAR (requiere conocer tamaño exacto del texto) Y VARCHAR
+- Fecha y hora
+  - DATETIME
+
+
+[Subir](#top)
+## Códigos de GIT usados
 ~~~
 git init
 git config --global user.email "jaosoriop93@gmail.com"   
