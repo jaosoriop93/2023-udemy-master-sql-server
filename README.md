@@ -23,6 +23,22 @@
       - [Tercera 3FN](#tercera-3fn)
     - [Tipos de datos](#tipos-de-datos)
   - [Códigos de GIT usados](#códigos-de-git-usados)
+  - [Conceptos de Relaciones entre Tablas](#conceptos-de-relaciones-entre-tablas)
+  - [Modelo Entidad Relación - DER](#modelo-entidad-relación---der)
+    - [Tipos de relaciones](#tipos-de-relaciones)
+      - [Uno a muchos](#uno-a-muchos)
+    - [Eliminar una relación](#eliminar-una-relación)
+    - [Editar un diagrama y agregar nuevas tablas](#editar-un-diagrama-y-agregar-nuevas-tablas)
+      - [EJERCICIO: Relacionar un Turno con su Estado](#ejercicio-relacionar-un-turno-con-su-estado)
+      - [EJERCICIO: Relacionar un Pago con su Concepto](#ejercicio-relacionar-un-pago-con-su-concepto)
+      - [Relación tablas intermedias](#relación-tablas-intermedias)
+      - [Muchos a muchos](#muchos-a-muchos)
+      - [EJERCICIO: Relacionando una Historia Clínica con su Paciente y Médico](#ejercicio-relacionando-una-historia-clínica-con-su-paciente-y-médico)
+      - [Uno a Uno](#uno-a-uno)
+      - [EJERCICIO: Eliminar una Foreign Key](#ejercicio-eliminar-una-foreign-key)
+    - [Añadir registros a una tabla](#añadir-registros-a-una-tabla)
+  - [SELECT](#select)
+  - [INSERT](#insert)
 
 
 ## 1. Configuración
@@ -221,4 +237,229 @@ git remote add origin https://github.com/jaosoriop93/2023-udemy-master-sql-serve
 git add .
 git mv notas.md README.md
 git push -u origin master
+~~~
+
+[Subir](#top)
+## Conceptos de Relaciones entre Tablas
+[Recurso de la clase](./RecursosCurso/Relaciones.pdf)
+
+Las relaciones entre tablas no son obligatorias. Una base de datos puede no tener tablas relacionadas.
+No obstante, una BD sin relaciones, corre el riesgo de perder la integridad de los datos en las tablas, ya que no tiene definidas las Reglas de Integridad Referencial.
+
+¿Qué son éstas Reglas?
+Son propiamente las relaciones entre tablas, en las que un campo Primary Key (PK) se relaciona un campo de otra tabla (del mismo tipo de dato), al cuál llamamos Foreign Key (FK)
+
+¿De que me sirve crear esta relación?
+Esta relación NO permitirá colocar un valor en el campo definido como FK, que no exista en la tabla relacionada que contiene el campo PK.
+
+Veamos este ejemplo:
+Tabla Paciente (campo idpais FK)
+Tabla Pais (campo idpais PK)
+
+Si tratamos de insertar un Paciente nuevo con un código de país que no existe en la tabla país, devolverá error y no permitirá su inserción.
+
+¿Porqué no me permite insertar el registro?
+Porque se ha definido la relación entre ambas tablas. Es una Regla de Integridad Referencial, y previene que guardemos registros con valores indefinidos.
+Esto hace que del lado de la interfaz de usuario, siempre se pueda visualizar información consistente.
+
+¿Qué sucede si quiero eliminar un registro de la tabla Pais, cuyo país está asignado a un Paciente?
+Al igual que antes, la Regla de Integridad no nos permitirá eliminar el país, hasta que cambiemos el país del Paciente por otro.
+Esta es la característica principal de las Bases de Datos Relacionales.
+
+## Modelo Entidad Relación - DER
+
+En el *Object Explorer*, se identifica una tabla a la cual se le desee crear una Foreign Key. Ejm: Paciente-País, a través de los campos con nombre idPaís (en uno es PK en otro FK).
+Clic derecho en la carpeta *Keys* de una de las tablas, luego en *New Foreign Key*.
+OJO!: Los tipos de datos deben ser iguales.
+
+![Keys](./SQLDATA/DER_Keys.png)
+
+En la siguiente imagen se muestra el diagrama DER donde se evidencia cómo ambas tablas quedan ancladas con una relación. Es posible darle clic derecho sobre la línea que une las tablas y luego en *Properties*, allí se puede acceder nuevamente a la tabla de edición de la relación ingresando desde *Tables And Columns Specification* y luego en los tres puntos para entrar al cuadro de edición.
+
+![Diagrama](./SQLDATA/DER_Vista.png)
+
+### Tipos de relaciones
+
+[Recurso de clase](./RecursosCurso/Relaciones.pdf)
+
+#### Uno a muchos
+
+En la siguiente imagen, puede observarse como un lado de la flecha tiene un símbolo de llave y otro en forma de 8 o de infinito.
+Esto representa una relación uno (llave) a muchos (infinito). En la tabla con la llave, existirá solo un valor que se relacionará con muchos registros en la tabla con el infinito.
+
+- Un paciente puede pertenecer a un solo país
+- Un país puede pertenecer a muchos pacientes
+
+Otra forma de verlo es debido a que idPais en la tabla de País es una *Primary Key*, **pero** en la tabla de Paciente es una FK (*Foreign Key*), lo que genera la relación de uno a muchos.
+
+![Diagrama](./SQLDATA/DER_Vista.png)
+
+### Eliminar una relación
+
+Es posible desde el *Object Explorer*, abrir la tabla deseada, luego en la carpeta *Keys* y en las FK que aparezcan, seleccionar y dar en la tecla Delete o en clic derecho Delete. Esto abrirá un cuadro de diálogo para proceder a eliminar la relación.
+Otra forma es desde el Diagrama DER, dar clic derecho sobre la flecha de la relación y dar en *Delete Relationships from Database*, lo que abrirá el mismo cuadro de dialogo para eliminar la relación.
+
+![Eliminar FK](SQLDATA/Eliminar_FK.png)
+
+### Editar un diagrama y agregar nuevas tablas
+
+Para editar el Diagrama previamente creado, desplegamos a carpeta Database Diagrams y con click derecho sobre el Diagrama existente seleccionamos la opción Modify
+
+![Editar 1](SQLDATA/EditarDiagrama1.jpg)
+
+Una vez abierto el Diagrama, con click derecho sobre el fondo del mismo seleccionamos la opción Add Table
+
+
+![Editar 2](SQLDATA/EditarDiagrama2.jpg)
+
+Finalmente seleccionamos de la lista, las tablas requeridas, con la tecla CTLR + Click izquierdo y presionamos el botón Add o Agregar
+
+![Editar 3](SQLDATA/EditarDiagrama3.jpg)
+
+#### EJERCICIO: Relacionar un Turno con su Estado
+
+1. Deberás realizar la Restricción Turno y TurnoEstado entre dichas tablas con el método explicado anteriormente.
+2. Los campos que debes relacionar son estado con idEstado de sus respectivas tablas.
+3. Para ello deberás abrir el diagrama DER creado y agregar al mismo ambas tablas Turno y TurnoEstado para verificar que la Restricción se haya establecido correctamente.
+4. Para finalizar, guarda los cambios en el diagrama.
+
+
+#### EJERCICIO: Relacionar un Pago con su Concepto
+1. Deberás realizar la Restricción Pago y Concepto entre dichas tablas con el método explicado anteriormente.
+2. También deberás abrir el diagrama DER creado y agregar al mismo ambas tablas Pago y Concepto para verificar que la Restricción se haya establecido correctamente.
+3. Para finalizar, guarda los cambios en el diagrama.
+
+#### Relación tablas intermedias
+
+La tabla Pago Paciente se relaciona con las tablas Pago, Paciente y Turno, todas al mismo tiempo. Es por esto, que al abrir el editor de las relaciones, hacemos uso del boton *Add* hasta agregar 3 relaciones en esta tabla. En cada una, seleccionamos la tabla con que se crea la relación y, los demás campos de la tabla PagoPaciente se pasan al valor de *None*, de manera que solo se considere un valor en cada relación, como se muestra en la siguiente imagen.
+
+![Editar 3](SQLDATA/RelacionTablasIntermedias.jpg)
+
+
+AL finalizar las relaciones, en el gráfico del DER, al dar clic derecho en el fondo del diagrama, y luego en *Arange table*, se reorganiza para verse de una forma más adecuada.
+
+![Varias relaciones](SQLDATA/DER_VariasRelaciones.png)
+
+Es posible crear relaciones desde el diagrama DER.
+Seleccionamos un campo con una llave y arrastramos y soltamos sobre el campo de otra tabla que queremos crear la relación. Esto despliega la tabla de edición de las relaciones.
+
+
+IMPORTANTE: Guardar los cambios realizados en el diagrama DER de  manera que los cambios se puedan evidenciar.
+
+#### Muchos a muchos
+
+No es posible crear relaciones muchos a muchos en BD relacionales. Esto se debe a que no habría forma de crear una PK, dado que no existirían datos únicos. Es por ello, que desde BD relacionales se requiere la existencia de una tercera tabla, como en el siguiente ejemplo, donde es necesaria la creación de la tabla "MedicoEspecialidad". Esto permita al final que un medico pueda tener muchos especialidades y una especialidad pueda ser tenida por muchos médicos.
+
+![Rel Muchos a Muchos](SQLDATA/RelMuchosaMuchos.png)
+
+#### EJERCICIO: Relacionando una Historia Clínica con su Paciente y Médico
+Deberás realizar una Restricción entre una Historia con su Paciente y su Médico con el método que prefieras.
+1. Agregar al diagrama las tablas necesarias.
+2. Generar las restricciones.
+3. Guardar el diagrama.
+
+#### Uno a Uno
+
+Para explicar esta relación, se crea una tabla de datos particulares de los pacientes. Ejm: resultados de una encuesta.
+
+~~~
+CREATE TABLE PacienteInfo(
+	idPaciente paciente,
+	diabetico BIT,
+	implantes BIT,
+	PRIMARY KEY (idPaciente)
+);
+~~~
+
+Al crear la relación, esta genera en ambos lados una llave, indicando una relación 1-1 (uno a uno). Cada registro se relacionará directamente con un único registro en la otra tabla.
+
+![Uno a uno](SQLDATA/RelUnoAUno.png)
+
+#### EJERCICIO: Eliminar una Foreign Key
+Siguiendo el método explicado en las clases anteriores, deberás eliminar la restricción entre la tabla Paciente y PacienteInfo.
+
+Recuerda que la tabla PacienteInfo fué creada para citar un ejemplo de restricción y si no la tienes en tu base de datos, puedes omitir este ejercicio.
+
+### Añadir registros a una tabla
+
+Clic derecho a una tabla, luego en *Edit Top 2000 rows* y se añaden los elementos y se editan los que se requieran.
+
+Para eliminar, en la ventana de edición, se seleccionan la o las filas y luego en clic derecho *Delete* o con la tecla DEL.
+
+Para ver una tabla, clic derecho, luego en *Select top 2000 rows* y de esta forma se crea una *New query* trayendo los 2000 primeros registros.
+
+## SELECT
+
+Permite seleccionar campos de una tabla basado en unas condiciones.
+Se usa * para seleccionar todos los campos o se separa por ","
+
+~~~
+SELECT * FROM paciente;
+SELECT idPaciente, nombre, apellido FROM paciente;
+~~~
+
+## INSERT
+
+Permite ingresar registros desde SQL a una tabla
+
+Los textos o VARCHAR deben ir entre comillas simples ''
+Las fechas deben ir también entre comillas simples y en el formato nativo de SQL Server que es AAAA-MM-DD
+
+~~~
+-- Para un registro.
+INSERT INTO Paciente (dni, nombre, apellido, fNacimiento, domicilio, idPais, telefono, email, observacion)
+VALUES ('33521569', 'Leandro', 'Paredes', '1982-05-20' ,'Piedras 150', 'ARG', '001548263', 'leandro@gmail.com', '');
+
+-- Para varios registros.
+INSERT INTO Paciente (dni, nombre, apellido, fNacimiento, domicilio, idPais, telefono, email, observacion)
+VALUES 
+('33578126', 'José', 'Pérez', '1999-04-15' ,'Lavalle 2563', 'COL', NULL, 'jose@gmail.com', 'paciente derivado'),
+('20584962', 'Marcela', 'Torres', '1978-02-15' ,'Belgrano 1563', 'MEX', 156847523, 'marcela@gmail.com', '');
+~~~
+
+INSERT no funciona si se intenta violar la condición de una tabla con PK, donde este valor debe ser único.
+
+~~~
+INSERT INTO Pais  VALUES ('ESP', 'España');
+
+Arroja:
+Msg 2627, Level 14, State 1, Line 4
+Violation of PRIMARY KEY constraint 'PK_Pais'. Cannot insert duplicate key in object 'dbo.Pais'. The duplicate key value is (ESP).
+The statement has been terminated.
+
+Completion time: 2023-08-28T23:03:37.3586994-05:00
+
+~~~
+
+
+~~~
+INSERT INTO TurnoEstado
+VALUES
+(0,'Pendiente'),
+(1,'Realizado'),
+(2,'Cancelado'),
+(3,'Rechazado'),
+(4,'Postergado'),
+(5,'Anulado'),
+(6,'Derivado')
+
+-- Intentar lo siguiente generará error
+INSERT INTO TurnoEstado
+VALUES
+(0,'Reservado')
+~~~
+
+
+~~~
+SELECT * FROM Turno
+
+INSERT INTO Turno (fechaTurno, estado, observacion) VALUES
+('2023-03-15', 0, 'Paciente en ayunas')
+
+SELECT * FROM Turno
+SELECT * FROM Paciente
+SELECT * FROM Medico
+
+INSERT INTO TurnoPaciente VALUES
+(1, 14, 1)
 ~~~
