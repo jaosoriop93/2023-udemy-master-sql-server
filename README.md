@@ -2,7 +2,8 @@
 # Máster en SQL Server: Desde Cero a Nivel Profesional 2023
 
 - [Máster en SQL Server: Desde Cero a Nivel Profesional 2023](#máster-en-sql-server-desde-cero-a-nivel-profesional-2023)
-  - [1. Configuración](#1-configuración)
+  - [Códigos de GIT usados](#códigos-de-git-usados)
+  - [Secciones 1 y 2. Introducción, instalación y SETUP](#secciones-1-y-2-introducción-instalación-y-setup)
     - [Instalación de SQL Server](#instalación-de-sql-server)
     - [Verificar la correta instalación de SQL Server](#verificar-la-correta-instalación-de-sql-server)
     - [Instalación de SQL Server Management Studio (SSMS)](#instalación-de-sql-server-management-studio-ssms)
@@ -12,7 +13,7 @@
       - [General](#general)
       - [Navegación y edición](#navegación-y-edición)
       - [Resultados y cuadrícula](#resultados-y-cuadrícula)
-  - [2. Fundamentos y Estructura de Base de Datos](#2-fundamentos-y-estructura-de-base-de-datos)
+  - [Sección 3. Fundamentos y Estructura de Base de Datos](#sección-3-fundamentos-y-estructura-de-base-de-datos)
     - [Valor NULL](#valor-null)
     - [Primary Key (PK)](#primary-key-pk)
     - [Foreign Key (FK)](#foreign-key-fk)
@@ -22,26 +23,63 @@
       - [Segunda 2FN](#segunda-2fn)
       - [Tercera 3FN](#tercera-3fn)
     - [Tipos de datos](#tipos-de-datos)
-  - [Códigos de GIT usados](#códigos-de-git-usados)
-  - [Conceptos de Relaciones entre Tablas](#conceptos-de-relaciones-entre-tablas)
-  - [Modelo Entidad Relación - DER](#modelo-entidad-relación---der)
+  - [Sección 5. Relaciones y Restricciones entre tablas](#sección-5-relaciones-y-restricciones-entre-tablas)
+  - [Sección 5. Relaciones y Restricciones entre tablas](#sección-5-relaciones-y-restricciones-entre-tablas-1)
+    - [Conceptos de Relaciones entre Tablas](#conceptos-de-relaciones-entre-tablas)
+    - [Modelo Entidad Relación - DER](#modelo-entidad-relación---der)
     - [Tipos de relaciones](#tipos-de-relaciones)
       - [Uno a muchos](#uno-a-muchos)
+      - [Muchos a muchos](#muchos-a-muchos)
+      - [Uno a Uno](#uno-a-uno)
     - [Eliminar una relación](#eliminar-una-relación)
     - [Editar un diagrama y agregar nuevas tablas](#editar-un-diagrama-y-agregar-nuevas-tablas)
+    - [Relación tablas intermedias](#relación-tablas-intermedias)
       - [EJERCICIO: Relacionar un Turno con su Estado](#ejercicio-relacionar-un-turno-con-su-estado)
       - [EJERCICIO: Relacionar un Pago con su Concepto](#ejercicio-relacionar-un-pago-con-su-concepto)
-      - [Relación tablas intermedias](#relación-tablas-intermedias)
-      - [Muchos a muchos](#muchos-a-muchos)
       - [EJERCICIO: Relacionando una Historia Clínica con su Paciente y Médico](#ejercicio-relacionando-una-historia-clínica-con-su-paciente-y-médico)
-      - [Uno a Uno](#uno-a-uno)
       - [EJERCICIO: Eliminar una Foreign Key](#ejercicio-eliminar-una-foreign-key)
+  - [Sección 6. Manipulación de registros DML con INSERT y SELECT](#sección-6-manipulación-de-registros-dml-con-insert-y-select)
     - [Añadir registros a una tabla](#añadir-registros-a-una-tabla)
-  - [SELECT](#select)
-  - [INSERT](#insert)
+    - [SELECT](#select)
+    - [INSERT](#insert)
+      - [EJERCICIO: Insertar registros en las tablas Pago, PagoPaciente y Concepto](#ejercicio-insertar-registros-en-las-tablas-pago-pagopaciente-y-concepto)
+  - [Sección 7. Cláusulas SQL](#sección-7-cláusulas-sql)
+    - [TOP](#top)
+    - [ORDER BY](#order-by)
+    - [TOP + ORDER BY](#top--order-by)
+    - [DISTINCT](#distinct)
+    - [GROUP BY](#group-by)
+    - [WHERE](#where)
+  - [Sección 8. Manipulación de registros DML con UPDATE y DELETE](#sección-8-manipulación-de-registros-dml-con-update-y-delete)
+    - [UPDATE](#update)
+    - [DELETE](#delete)
+      - [DELETE Y FOREIGN KEYS](#delete-y-foreign-keys)
+    - [Propiedad ALLOW NULLS](#propiedad-allow-nulls)
+      - [Ejercicios](#ejercicios)
+  - [Sección 9. Funciones de Agregado](#sección-9-funciones-de-agregado)
+    - [MAX Y MIN](#max-y-min)
+    - [SUM](#sum)
+    - [AVG](#avg)
+    - [COUNT](#count)
+    - [HAVING](#having)
 
 
-## 1. Configuración
+[Subir](#top)
+## Códigos de GIT usados
+~~~
+git init
+git config --global user.email "jaosoriop93@gmail.com"   
+git config --global user.name "jaosoriop93"                
+git commit -m "Primer carga a GIT del curso de SQL Server"   
+git remote add origin https://github.com/jaosoriop93/2023-udemy-master-sql-server.git
+git add .
+git mv notas.md README.md
+git push -u origin master
+~~~
+
+
+[Subir](#top)
+## Secciones 1 y 2. Introducción, instalación y SETUP
 ### Instalación de SQL Server
 Se descarga e instala el SQL Server, versión DEVELOPER
 Al Instalar el SQL Server 2022
@@ -53,14 +91,12 @@ Se instalan
 - Full-Text and Semantic Extractions for Search
 - Integration Services
 
-[Subir](#top)
 ### Verificar la correta instalación de SQL Server
 Abrir "Servicios" en Windows.
 Se verifica que aparezcan 2 servicios: 
 - SQL Server (MSQLSERVER2022)
 - SQL Server Agent (MSQLSERVER2022)
 
-[Subir](#top)
 ### Instalación de SQL Server Management Studio (SSMS)
 Se realiza luego de instalar el SQL Server
 Se descarga el instalador de SQL Server Management Studio (SSMS)
@@ -68,7 +104,6 @@ Al momento, versión 19.1
 Se instala. Se deja la ruta de configuración por defecto.
 Se reinicia si así lo solicita el programa.
 
-[Subir](#top)
 ### Conexión al motor SQL
 Se busca SSMS en la barra de búsqueda
 Se despliega para la conexión.
@@ -78,7 +113,6 @@ En la autenticación, como se haya configurado. En ESTE caso, solo autenticació
 Usuario: SA, Password: Password123
 Se verifica que el símbolo de base de datos aparezca en <span style="color:green">*VERDE*</span>.
 
-[Subir](#top)
 ### Conociendo Microsoft SQL Management Studio
 Entorno que nos permite conectarnos a distintas instancias de bases de datos y poder administrar sus objetos (tablas, procesos, diagramas, objectos de BD, entre otros). Nos conectamos al motor y gestionamos objetos.
 - **Object Explorer**: Panel izquierdo. Permite conocer las instancias a las que estamos conectados
@@ -101,7 +135,6 @@ Entorno que nos permite conectarnos a distintas instancias de bases de datos y p
 - Existe la opción de comentar varias líneas a la vez
 - También la de indentar o des-indentar texto
 
-[Subir](#top)
 ### Atajos de teclado más utilizados
 Aquí tienes una lista de algunos atajos de teclado muy utilizados en SQL Server Management Studio (SSMS):
 
@@ -128,7 +161,7 @@ Aquí tienes una lista de algunos atajos de teclado muy utilizados en SQL Server
 - Ctrl + T: Modo de visualización de texto.
 
 [Subir](#top)
-## 2. Fundamentos y Estructura de Base de Datos
+## Sección 3. Fundamentos y Estructura de Base de Datos
 Base de datos: símil con una biblioteca
 - Biblioteca: secciones, estantes, libros y las propiedades de cada libro (Título, Autor, Género, Año, ISBN.)
 - Base de datos:
@@ -137,7 +170,6 @@ Base de datos: símil con una biblioteca
   - Registros: los valores en cada campo
 Similar a EXCEL. Misma organización.
 
-[Subir](#top)
 ### Valor NULL
 Un valor NULL representa la ausencia de un valor en una columna de una tabla. Esto indica que no se ha asignado ningún valor en esa columna determinada.
 
@@ -226,21 +258,17 @@ Los más usados:
   - DATETIME
 
 
-[Subir](#top)
-## Códigos de GIT usados
-~~~
-git init
-git config --global user.email "jaosoriop93@gmail.com"   
-git config --global user.name "jaosoriop93"                
-git commit -m "Primer carga a GIT del curso de SQL Server"   
-git remote add origin https://github.com/jaosoriop93/2023-udemy-master-sql-server.git
-git add .
-git mv notas.md README.md
-git push -u origin master
-~~~
+
+
 
 [Subir](#top)
-## Conceptos de Relaciones entre Tablas
+## Sección 5. Relaciones y Restricciones entre tablas
+
+
+[Subir](#top)
+## Sección 5. Relaciones y Restricciones entre tablas
+
+### Conceptos de Relaciones entre Tablas
 [Recurso de la clase](./RecursosCurso/Relaciones.pdf)
 
 Las relaciones entre tablas no son obligatorias. Una base de datos puede no tener tablas relacionadas.
@@ -266,7 +294,7 @@ Esto hace que del lado de la interfaz de usuario, siempre se pueda visualizar in
 Al igual que antes, la Regla de Integridad no nos permitirá eliminar el país, hasta que cambiemos el país del Paciente por otro.
 Esta es la característica principal de las Bases de Datos Relacionales.
 
-## Modelo Entidad Relación - DER
+### Modelo Entidad Relación - DER
 
 En el *Object Explorer*, se identifica una tabla a la cual se le desee crear una Foreign Key. Ejm: Paciente-País, a través de los campos con nombre idPaís (en uno es PK en otro FK).
 Clic derecho en la carpeta *Keys* de una de las tablas, luego en *New Foreign Key*.
@@ -294,6 +322,29 @@ Otra forma de verlo es debido a que idPais en la tabla de País es una *Primary 
 
 ![Diagrama](./SQLDATA/DER_Vista.png)
 
+#### Muchos a muchos
+
+No es posible crear relaciones muchos a muchos en BD relacionales. Esto se debe a que no habría forma de crear una PK, dado que no existirían datos únicos. Es por ello, que desde BD relacionales se requiere la existencia de una tercera tabla, como en el siguiente ejemplo, donde es necesaria la creación de la tabla "MedicoEspecialidad". Esto permita al final que un medico pueda tener muchos especialidades y una especialidad pueda ser tenida por muchos médicos.
+
+![Rel Muchos a Muchos](SQLDATA/RelMuchosaMuchos.png)
+
+#### Uno a Uno
+
+Para explicar esta relación, se crea una tabla de datos particulares de los pacientes. Ejm: resultados de una encuesta.
+
+~~~
+CREATE TABLE PacienteInfo(
+	idPaciente paciente,
+	diabetico BIT,
+	implantes BIT,
+	PRIMARY KEY (idPaciente)
+);
+~~~
+
+Al crear la relación, esta genera en ambos lados una llave, indicando una relación 1-1 (uno a uno). Cada registro se relacionará directamente con un único registro en la otra tabla.
+
+![Uno a uno](SQLDATA/RelUnoAUno.png)
+
 ### Eliminar una relación
 
 Es posible desde el *Object Explorer*, abrir la tabla deseada, luego en la carpeta *Keys* y en las FK que aparezcan, seleccionar y dar en la tecla Delete o en clic derecho Delete. Esto abrirá un cuadro de diálogo para proceder a eliminar la relación.
@@ -316,20 +367,7 @@ Finalmente seleccionamos de la lista, las tablas requeridas, con la tecla CTLR +
 
 ![Editar 3](SQLDATA/EditarDiagrama3.jpg)
 
-#### EJERCICIO: Relacionar un Turno con su Estado
-
-1. Deberás realizar la Restricción Turno y TurnoEstado entre dichas tablas con el método explicado anteriormente.
-2. Los campos que debes relacionar son estado con idEstado de sus respectivas tablas.
-3. Para ello deberás abrir el diagrama DER creado y agregar al mismo ambas tablas Turno y TurnoEstado para verificar que la Restricción se haya establecido correctamente.
-4. Para finalizar, guarda los cambios en el diagrama.
-
-
-#### EJERCICIO: Relacionar un Pago con su Concepto
-1. Deberás realizar la Restricción Pago y Concepto entre dichas tablas con el método explicado anteriormente.
-2. También deberás abrir el diagrama DER creado y agregar al mismo ambas tablas Pago y Concepto para verificar que la Restricción se haya establecido correctamente.
-3. Para finalizar, guarda los cambios en el diagrama.
-
-#### Relación tablas intermedias
+### Relación tablas intermedias
 
 La tabla Pago Paciente se relaciona con las tablas Pago, Paciente y Turno, todas al mismo tiempo. Es por esto, que al abrir el editor de las relaciones, hacemos uso del boton *Add* hasta agregar 3 relaciones en esta tabla. En cada una, seleccionamos la tabla con que se crea la relación y, los demás campos de la tabla PagoPaciente se pasan al valor de *None*, de manera que solo se considere un valor en cada relación, como se muestra en la siguiente imagen.
 
@@ -346,11 +384,18 @@ Seleccionamos un campo con una llave y arrastramos y soltamos sobre el campo de 
 
 IMPORTANTE: Guardar los cambios realizados en el diagrama DER de  manera que los cambios se puedan evidenciar.
 
-#### Muchos a muchos
+#### EJERCICIO: Relacionar un Turno con su Estado
 
-No es posible crear relaciones muchos a muchos en BD relacionales. Esto se debe a que no habría forma de crear una PK, dado que no existirían datos únicos. Es por ello, que desde BD relacionales se requiere la existencia de una tercera tabla, como en el siguiente ejemplo, donde es necesaria la creación de la tabla "MedicoEspecialidad". Esto permita al final que un medico pueda tener muchos especialidades y una especialidad pueda ser tenida por muchos médicos.
+1. Deberás realizar la Restricción Turno y TurnoEstado entre dichas tablas con el método explicado anteriormente.
+2. Los campos que debes relacionar son estado con idEstado de sus respectivas tablas.
+3. Para ello deberás abrir el diagrama DER creado y agregar al mismo ambas tablas Turno y TurnoEstado para verificar que la Restricción se haya establecido correctamente.
+4. Para finalizar, guarda los cambios en el diagrama.
 
-![Rel Muchos a Muchos](SQLDATA/RelMuchosaMuchos.png)
+
+#### EJERCICIO: Relacionar un Pago con su Concepto
+1. Deberás realizar la Restricción Pago y Concepto entre dichas tablas con el método explicado anteriormente.
+2. También deberás abrir el diagrama DER creado y agregar al mismo ambas tablas Pago y Concepto para verificar que la Restricción se haya establecido correctamente.
+3. Para finalizar, guarda los cambios en el diagrama.
 
 #### EJERCICIO: Relacionando una Historia Clínica con su Paciente y Médico
 Deberás realizar una Restricción entre una Historia con su Paciente y su Médico con el método que prefieras.
@@ -358,27 +403,13 @@ Deberás realizar una Restricción entre una Historia con su Paciente y su Médi
 2. Generar las restricciones.
 3. Guardar el diagrama.
 
-#### Uno a Uno
-
-Para explicar esta relación, se crea una tabla de datos particulares de los pacientes. Ejm: resultados de una encuesta.
-
-~~~
-CREATE TABLE PacienteInfo(
-	idPaciente paciente,
-	diabetico BIT,
-	implantes BIT,
-	PRIMARY KEY (idPaciente)
-);
-~~~
-
-Al crear la relación, esta genera en ambos lados una llave, indicando una relación 1-1 (uno a uno). Cada registro se relacionará directamente con un único registro en la otra tabla.
-
-![Uno a uno](SQLDATA/RelUnoAUno.png)
-
 #### EJERCICIO: Eliminar una Foreign Key
 Siguiendo el método explicado en las clases anteriores, deberás eliminar la restricción entre la tabla Paciente y PacienteInfo.
 
 Recuerda que la tabla PacienteInfo fué creada para citar un ejemplo de restricción y si no la tienes en tu base de datos, puedes omitir este ejercicio.
+
+[Subir](#top)
+## Sección 6. Manipulación de registros DML con INSERT y SELECT
 
 ### Añadir registros a una tabla
 
@@ -388,7 +419,7 @@ Para eliminar, en la ventana de edición, se seleccionan la o las filas y luego 
 
 Para ver una tabla, clic derecho, luego en *Select top 2000 rows* y de esta forma se crea una *New query* trayendo los 2000 primeros registros.
 
-## SELECT
+### SELECT
 
 Permite seleccionar campos de una tabla basado en unas condiciones.
 Se usa * para seleccionar todos los campos o se separa por ","
@@ -398,12 +429,13 @@ SELECT * FROM paciente;
 SELECT idPaciente, nombre, apellido FROM paciente;
 ~~~
 
-## INSERT
+### INSERT
 
 Permite ingresar registros desde SQL a una tabla
 
 Los textos o VARCHAR deben ir entre comillas simples ''
-Las fechas deben ir también entre comillas simples y en el formato nativo de SQL Server que es AAAA-MM-DD
+Las fechas deben ir también entre comillas simples y en el formato nativo de SQL Server que es AAAA-MM-DD.
+También funciona usar el formato AAAAMMDD (sin guiones medios)
 
 ~~~
 -- Para un registro.
@@ -428,9 +460,7 @@ Violation of PRIMARY KEY constraint 'PK_Pais'. Cannot insert duplicate key in ob
 The statement has been terminated.
 
 Completion time: 2023-08-28T23:03:37.3586994-05:00
-
 ~~~
-
 
 ~~~
 INSERT INTO TurnoEstado
@@ -449,7 +479,6 @@ VALUES
 (0,'Reservado')
 ~~~
 
-
 ~~~
 SELECT * FROM Turno
 
@@ -462,4 +491,217 @@ SELECT * FROM Medico
 
 INSERT INTO TurnoPaciente VALUES
 (1, 14, 1)
+~~~
+
+
+#### EJERCICIO: Insertar registros en las tablas Pago, PagoPaciente y Concepto
+
+~~~
+SELECT * FROM Concepto
+
+INSERT INTO Concepto (descripcion)
+VALUES ('Radiografía'), ('Laboratorio');
+-----------------------------------------------------
+SELECT * FROM Pago
+
+INSERT INTO Pago (concepto, fecha, monto, estado, obs)
+VALUES
+(1, '2019-02-15', 4500, 0, 'Pago pendiente'),
+(2, '2019-05-20', 6800, 0, 'Pago pendiente'), 
+(1, '2019-09-17', 5600, 0, 'Pago pendiente')
+-----------------------------------------------------
+SELECT * FROM Pago
+SELECT * FROM Paciente
+SELECT * FROM Turno
+
+SELECT * FROM PagoPaciente
+
+INSERT INTO PagoPaciente VALUES
+(1, 1, 1),
+(2, 5, 1),
+(3, 15, 1)
+
+~~~
+
+[Subir](#top)
+## Sección 7. Cláusulas SQL
+
+### TOP
+Retorna los primeros datos de una tabla
+Se puede incluir el *
+~~~
+SELECT TOP 2 * FROM Paciente
+~~~
+
+O se pueden especificar los campos que se quieren
+~~~
+SELECT TOP 2 nombre, apellido FROM Paciente
+~~~
+
+### ORDER BY
+Ordena una tabla por uno o varios campos.
+Por defecto ordena  de forma ASC
+~~~
+SELECT * FROM Paciente ORDER BY fNacimiento
+~~~
+Para cambiar el tipo de ordenamiento, se puede incluir al final el texto *DESC*
+~~~
+SELECT * FROM Paciente ORDER BY fNacimiento DESC
+~~~
+
+### TOP + ORDER BY
+Permite obtener los primeros datos de una tabla que previamente considera un ordenamiento.
+~~~
+SELECT TOP 1 * FROM Paciente ORDER BY fNacimiento
+SELECT TOP 1 * FROM Paciente ORDER BY fNacimiento DESC
+~~~
+
+### DISTINCT
+Obtiene los valores únicos de un campo
+~~~
+SELECT DISTINCT idPais FROM Paciente
+SELECT DISTINCT nombre FROM Paciente
+~~~
+
+### GROUP BY
+Agrupa registros. REQUIERE de una función agregadora, que permiten hacer conteos, sumas, entre otras.
+~~~
+SELECT idPais FROM Paciente GROUP BY idPais
+~~~
+
+### WHERE
+Filtra/busca determinados registros que cumplan una condición.
+~~~
+SELECT * FROM Paciente where idPais='MEX'
+SELECT * FROM Paciente where apellido='López'
+~~~
+
+[Subir](#top)
+## Sección 8. Manipulación de registros DML con UPDATE y DELETE
+
+### UPDATE
+Permite actualizar registros
+
+Se usa *SET* para actualizar determinados campos. Se separan por coma los campos
+
+Luego de UPDATE y de SET es posible incluir la cláusula WHERE. Esto permite que no se hagan actualizaciones masivas de información y que nos enfocamos solo en los registros deseados.
+
+~~~
+-- Actualiza todos los registros en su campo "observacion"
+UPDATE Paciente SET observacion = 'Sin observación'
+
+-- Atualiza el correo solo para el idPaciente 4
+UPDATE Paciente SET email = 'correo@mail.com' WHERE idPaciente = 4
+
+-- Actualiza varios campos a la vez
+UPDATE Paciente SET dni='123456789', domicilio = 'Calle El Barranco' WHERE idPaciente = 4
+~~~
+
+### DELETE
+Permite eliminar registros
+
+~~~
+-- Elimina TODOS los registros de la tabla
+DELETE FROM Paciente
+
+-- Elimina solo los registros correspondientes
+DELETE FROM Paciente WHERE idPaciente=6
+~~~
+
+#### DELETE Y FOREIGN KEYS
+
+~~~
+DELETE FROM Paciente WHERE idPaciente = 14
+~~~
+
+Al ejecutar la consulta arroja el siguiente error.
+Esto previene dejar registros inconsistentes en la base de datos.
+Si se borra un registro en este caso, todos los registros compartidos por FOREIGN KEYS
+
+~~~
+Msg 547, Level 16, State 0, Line 13
+The DELETE statement conflicted with the REFERENCE constraint "FK_TurnoPaciente_Paciente". The conflict occurred in database "CentroMedico", table "dbo.TurnoPaciente", column 'idPaciente'.
+The statement has been terminated.
+~~~
+
+En este caso, primero se debe eliminar el registro en la tabla TurnoPaciente y luego en Paciente
+
+~~~
+DELETE FROM TurnoPaciente WHERE idTurno=2
+DELETE FROM Paciente WHERE idPaciente=14
+~~~
+
+Dado que la tabla Turno tiene información adicional a la tabla TurnoPaciente, es importante que se elimine el registro correspondiente en la tabla Turno, de manera que todos los registros sean consistentes.
+~~~
+DELETE FROM TurnoPaciente WHERE idTurno=2
+~~~
+
+### Propiedad ALLOW NULLS
+
+Esta propiedad, al estar activada (True, Yes, 1), permite que un campo pueda ser diligenciada con valores NULL.
+Cuando está en desactivada (False, No, 0), no permite campos NULL. 
+Al intentar crear un nuevo registro en este caso, el programa arroja el siguiente error
+~~~
+SELECT * FROM Medico
+INSERT INTO Medico VALUES (NULL, NULL)
+~~~
+
+~~~
+Msg 515, Level 16, State 2, Line 4
+Cannot insert the value NULL into column 'nombre', table 'CentroMedico.dbo.Medico'; column does not allow nulls. INSERT fails.
+The statement has been terminated.
+~~~
+
+#### Ejercicios
+~~~
+-- Insetar en TurnoEstado para validar IDENTITY
+SELECT * FROM TurnoEstado
+INSERT INTO TurnoEstado VALUES ('Preparado'), ('Diseñado'), ('Ahorrado')
+-- Pago ordenado por fecha
+SELECT * FROM Pago
+SELECT * FROM Pago ORDER BY fecha
+-- Paciente más joven
+SELECT * FROM Paciente
+SELECT TOP 1 * FROM Paciente ORDER BY fNacimiento DESC
+~~~
+
+[Subir](#top)
+## Sección 9. Funciones de Agregado
+
+### MAX Y MIN
+Se pueden usar  en campos tipo VARCHAR, donde retorna resultados por orden alfabético.
+
+~~~
+SELECT * FROM Pago
+SELECT MAX(fecha) FROM Pago
+SELECT MIN(monto) FROM Pago
+~~~
+
+### SUM
+Estas operaciones generan un campo sin nombre. Es posible crear un nuevo nombre luego de hacer la operación.
+SQL permite operaciones matemáticas.
+~~~
+SELECT * FROM Pago
+SELECT SUM(monto) MONTOTOTAL FROM Pago
+SELECT SUM(monto) AS MONTOTOTAL FROM Pago
+SELECT SUM(monto + 20) AS MONTOTOTAL FROM Pago
+SELECT SUM(monto)+20 AS MONTOTOTAL FROM Pago
+~~~
+
+### AVG
+~~~
+SELECT * FROM Pago
+SELECT AVG(MONTO) FROM Pago
+~~~
+
+### COUNT
+~~~
+SELECT COUNT(idPaciente) FROM Paciente
+SELECT * FROM Paciente
+SELECT COUNT(idPaciente) FROM Paciente WHERE apellido='López'
+~~~
+
+### HAVING
+~~~
+
 ~~~
