@@ -92,6 +92,15 @@ git remote add origin https://github.com/jaosoriop93/2023-udemy-master-sql-serve
 git add .
 git mv notas.md README.md
 git push -u origin master
+
+
+
+Al seguir trabajando en la carpeta
+cd Master_SQL_Server
+git status (para chequear si hay cambios)
+git add .
+git commit -m "Un comentario del commit"
+git push -u origin master
 ~~~
 
 
