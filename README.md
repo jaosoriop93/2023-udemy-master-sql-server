@@ -55,13 +55,30 @@
     - [DELETE](#delete)
       - [DELETE Y FOREIGN KEYS](#delete-y-foreign-keys)
     - [Propiedad ALLOW NULLS](#propiedad-allow-nulls)
-      - [Ejercicios](#ejercicios)
-  - [Sección 9. Funciones de Agregado](#sección-9-funciones-de-agregado)
+  - [Sección 9. Ejercicios Complementarios](#sección-9-ejercicios-complementarios)
+  - [Sección 10. Funciones de Agregado](#sección-10-funciones-de-agregado)
     - [MAX Y MIN](#max-y-min)
     - [SUM](#sum)
     - [AVG](#avg)
     - [COUNT](#count)
     - [HAVING](#having)
+  - [Sección 11. Operadores Lógicos](#sección-11-operadores-lógicos)
+    - [AND](#and)
+    - [OR](#or)
+    - [IN](#in)
+    - [LIKE](#like)
+    - [NOT](#not)
+    - [BETWEEN](#between)
+    - [Combinación de operadores](#combinación-de-operadores)
+  - [Sección 12. Stored Procedures, Variables y Subconsultas](#sección-12-stored-procedures-variables-y-subconsultas)
+    - [Stored Procedures](#stored-procedures)
+    - [Variables](#variables)
+      - [Print](#print)
+      - [ISNULL](#isnull)
+      - [Ejemplos para declarar Variables de distintos Tipos de Dato](#ejemplos-para-declarar-variables-de-distintos-tipos-de-dato)
+    - [SUBCONSULTAS y ALIAS](#subconsultas-y-alias)
+  - [Sección 13. Estructuras de Control](#sección-13-estructuras-de-control)
+  - [Sección 14. Operadores aritméticos y de comparación](#sección-14-operadores-aritméticos-y-de-comparación)
 
 
 [Subir](#top)
@@ -565,6 +582,9 @@ SELECT DISTINCT nombre FROM Paciente
 
 ### GROUP BY
 Agrupa registros. REQUIERE de una función agregadora, que permiten hacer conteos, sumas, entre otras.
+
+ES NECESARIO: que el campo que se agrupe, luego se pase también en el SELECT
+
 ~~~
 SELECT idPais FROM Paciente GROUP BY idPais
 ~~~
@@ -652,7 +672,8 @@ Cannot insert the value NULL into column 'nombre', table 'CentroMedico.dbo.Medic
 The statement has been terminated.
 ~~~
 
-#### Ejercicios
+[Subir](#top)
+## Sección 9. Ejercicios Complementarios
 ~~~
 -- Insetar en TurnoEstado para validar IDENTITY
 SELECT * FROM TurnoEstado
@@ -666,7 +687,7 @@ SELECT TOP 1 * FROM Paciente ORDER BY fNacimiento DESC
 ~~~
 
 [Subir](#top)
-## Sección 9. Funciones de Agregado
+## Sección 10. Funciones de Agregado
 
 ### MAX Y MIN
 Se pueden usar  en campos tipo VARCHAR, donde retorna resultados por orden alfabético.
@@ -702,6 +723,289 @@ SELECT COUNT(idPaciente) FROM Paciente WHERE apellido='López'
 ~~~
 
 ### HAVING
+Having "donde el valor sea". Requiere incluir GROUPBY e incluir COUNT
+Similar a Where
+Where -> Filtra sobre un registro particular
+Having -> Filtra sobre un conjunto de registros
+
+ES NECESARIO, que el campo por el que se hace el GROUPBY, se incluya en el HAVING
+
+Having permite incluir funciones como el COUNT para poder así seleccionar pero con una condición previa de conteo
+
+Como ejemplo, sobre esta tabla Turno. Se insertan varios registros para probar la función HAVING:
+~~~
+SELECT * FROM Turno
+INSERT INTO TURNO VALUES ('20190101', 3, 'OBS3')
+~~~
+
+![Having 1](./SQLDATA/HAVING1.png)
+
+Se incluye el HAVING, pero donde Estado=1 (En este caso, funciona como un WHERE)
+~~~
+SELECT estado FROM Turno GROUP BY estado HAVING estado = '1'
+~~~
+
+![Having 2](./SQLDATA/HAVING2.png)
+
+Se incluye el HAVING, incluyendo el COUNT. En este caso, ya se diferencia del WHERE. Trae todos los registros que cumplan la condición que al realizar un GROUPBY y contar registros, estos sean <4.
+
+~~~
+SELECT estado FROM Turno GROUP BY estado HAVING COUNT(estado) < 4
+~~~
+
+![Having 3](./SQLDATA/HAVING3.png)
+
+Y con el conteo < 3:
+~~~
+SELECT estado FROM Turno GROUP BY estado HAVING COUNT(estado) < 3
+~~~
+
+![Having 4](./SQLDATA/HAVING4.png)
+
+[Subir](#top)
+## Sección 11. Operadores Lógicos
+
+### AND
+Concatena varias condiciones en la que todas deben ser verdaderas para poder obtener datos en un SELECT.
+~~~
+-- Incluimos un paciente con el mismo nombre y apellido que uno existente
+INSERT INTO Paciente VALUES ('Jorge', 'Ramírez', '2018-03-27', 'El Barranco', 'MEX', NULL, 'jorge@mail.com.co', NULL)
+SELECT * FROM Paciente
+~~~
+![Tabla inicial](./SQLDATA/AND1.png)
+~~~
+--Usamos el AND
+SELECT * FROM Paciente WHERE nombre='Jorge' AND apellido='Ramírez'
+~~~
+![AND 1](./SQLDATA/AND2.png)
+~~~
+SELECT * FROM Paciente WHERE nombre='Jorge' AND apellido='Ramírez' AND idPaciente=18
+~~~
+![AND 2](./SQLDATA/AND3.png)
+
+### OR
+Concatena varias condiciones en la que **por lo menos 1** debe ser verdadera para poder obtener datos en un SELECT.
+~~~
+INSERT INTO Paciente VALUES ('Jaime', 'Ramírez', '2018-03-27', 'El Barranco', 'MEX', NULL, 'otro@mail.com.co', NULL)
+INSERT INTO Paciente VALUES ('Jorge', 'Perez',   '2018-03-27', 'El Barranco', 'MEX', NULL, 'otro@mail.com.co', NULL)
+SELECT * FROM Paciente
+~~~
+![OR 1](./SQLDATA/OR1.png)
+~~~
+SELECT * FROM Paciente WHERE nombre='Jorge' OR apellido='Ramírez' OR idPaciente=18
+~~~
+![OR 2](./SQLDATA/OR2.png)
+
+### IN
+Permite realiza un filtrado de acuerdo con los valores que pasamos en una lista entre paréntesis luego de incluir el IN y luego de un WHERE:
+
+~~~
+SELECT * FROM Turno WHERE ESTADO IN(2,3)
+
+SELECT * FROM Paciente WHERE apellido IN('López', 'Pérez', 'Osorio')
+~~~
+
+### LIKE
+Permite realiza un filtrado de registpros **similares** de acuerdo con lo que pasamos en una cadena luego de incluir el LIKE y luego de un WHERE.
+Es importante incluir los comodínes % antes, despúes o en ambos lados de una cadena:
+
+~~~
+SELECT * FROM Paciente
+SELECT * FROM Paciente WHERE nombre LIKE 'J%'
+SELECT * FROM Paciente WHERE apellido LIKE '%ez'
+SELECT * FROM Paciente WHERE nombre LIKE '%d%'
+~~~
+
+### NOT
+Niega una condición
+Puede usarse en un LIKE, en un IN, etc.
+
+~~~
+SELECT * FROM Paciente
+SELECT * FROM Paciente WHERE nombre NOT LIKE 'J%'
+SELECT * FROM Paciente WHERE apellido NOT IN('López', 'Pérez', 'Osorio')
+~~~
+
+### BETWEEN
+Filtra por un rango (fechas, números, textos)
+CUIDADO: Es importante incluir las **HORAS**, en caso que el formato *datetime* incluya la hora.
+
+~~~
+-- Por fechas
+SELECT * FROM TURNO
+UPDATE TURNO SET fechaTurno='20190101 1:00:00' WHERE idTurno=3
+UPDATE TURNO SET fechaTurno='20190101 2:00:00' WHERE idTurno=4
+UPDATE TURNO SET fechaTurno='20190101 3:00:00' WHERE idTurno=5
+UPDATE TURNO SET fechaTurno='20190101 4:00:00' WHERE idTurno=6
+UPDATE TURNO SET fechaTurno='20190101 5:00:00' WHERE idTurno=7
+UPDATE TURNO SET fechaTurno='20190101 6:00:00' WHERE idTurno=8
+SELECT * FROM TURNO WHERE fechaTurno BETWEEN '20190101 00:00:00' AND '20190101 05:00:00'
 ~~~
 
 ~~~
+-- Por números
+SELECT * FROM TURNO WHERE estado BETWEEN 1 AND 2
+~~~
+
+### Combinación de operadores
+Es posible combinar los operadores
+PRECAUCIÓN: El uso de Paréntesis () es importante.
+
+~~~
+SELECT * FROM Paciente 
+SELECT * FROM Paciente WHERE nombre='Jorge' OR apellido='Ramírez' 
+SELECT * FROM Paciente WHERE nombre='Jorge' OR apellido='Ramírez' OR idPais = 'ARG'
+SELECT * FROM Paciente WHERE nombre='Jorge' AND (apellido='Ramírez' OR idPais = 'ARG')
+SELECT * FROM Paciente WHERE nombre='Jorge' AND idPaciente NOT IN(3,6, 18)
+~~~
+
+[Subir](#top)
+## Sección 12. Stored Procedures, Variables y Subconsultas
+
+### Stored Procedures
+
+Es un procedimiento que queda "instalado" en el SQL para ser usado cuando se requiera.
+Se abre una solución y un proyecto dentro. Allí, se crea un *New Query* para poder crea un STORE PROCEDURE.
+
+Están destinados para ejecutar consultas concretas.
+Permiten
+Un *Store Procedure* tiene un objetivo determinado. Esto puede ser INSERT, DELETE, UPDATE, o varios o todos al mismo tiempo.
+Es un símil a ***FUNCIONES***.
+
+Los parámetros de entrada se incluyen dentro del paréntesis y requieren un @ delante.
+
+~~~
+-- EJM de CREAR un STORE PROCEDURE
+CREATE PROC S_paciente(@idpaciente INT)
+AS
+SELECT * FROM Paciente WHERE idPaciente=@idpaciente
+GO
+~~~
+
+Al ejecutarlo con F5, se guardan automáticamente en la ruta de la base de datos ./Programmability/StoredProcedures.
+
+![Stored Procedures](./SQLDATA/STOREDPROCEDURES1.png)
+
+De forma automática, SQL Server incluye otros ítems que son:
+- NO considerar los valores NULL. Si se desea que se consideren los valores NULL, se debe cambiar por la cláusula SET ANSI_NULLS OFF.
+
+~~~
+SET ANSI_NULLS ON
+~~~
+
+- Permita usar las palabras reservadas como NULL, WHERE, IN, SELECT, entre otras, **SIEMPRE Y CUANDO** se incluyan las comillas dobles "". 
+
+~~~
+SET QUOTED_IDENTIFIER ON
+~~~
+
+Antes de incluir las dobles comillas, se resaltan las palabras reservadas y mal usadas con líneas rojas.
+
+![Antes de Quoted](./SQLDATA/STOREDPROCEDURES2.png)
+
+Al incluir las dobles comillas, se permite el uso de las palabras reservadas sin error
+
+![Luego de Quoted](./SQLDATA/STOREDPROCEDURES3.png)
+
+Al dar clic derecho y MODIFY a un *Stored Procedure* (SP), se abre una ventana de consulta con la palabra **ALTER** para determinar que el SP ya está creado y lo que continúa es una MODIFICACIÓN.
+
+Para ejecutar un SP, se una ventana de *New Query*, se ejecutar una línea de la siguiente forma:
+~~~
+EXEC nombre_del_SP param1, param2, param3
+
+-- Para el ejemplo sería:
+SELECT * FROM Paciente
+EXEC S_paciente 3
+EXEC S_paciente 99
+EXEC S_paciente 19
+~~~
+
+### Variables
+
+Es un objeto en memoria que permite almacenar un valor. Sobrevive durante todo un Script y su valor puede variar.
+Para definirlo, se usan las palabras DECLARE y el símbolo @:
+~~~
+DECLARE @ordenamiento VAR(1)
+SET @ordenamiento = 'A'
+~~~
+
+Para definirlo e inicializarlo de una vez:
+~~~
+DECLARE @ordenamiento VAR(1) = 'A'
+~~~
+
+#### Print
+Permite escribir en la consola el valor de una variable o algún mensaje que queremos ver en la ejecución de un Script:
+~~~
+PRINT 'Hola Mundo'
+PRINT 123
+PRINT @miVariable
+~~~
+
+#### ISNULL
+Permite ajustar el valor de una variable o de una expresión, cuando esta es NULL.
+El siguiente código, imprime VACÍO:
+~~~
+DECLARE @ordenamiento CHAR(1)
+DECLARE @valorOrdenamiento CHAR(1)
+SET @valorOrdenamiento = @ordenamiento
+PRINT @valorOrdenamiento
+~~~
+![ISNULL1](./SQLDATA/ISNULL1.png)
+
+Mientras el siguiente código, imprime una 'A'
+~~~
+DECLARE @ordenamiento CHAR(1)
+DECLARE @valorOrdenamiento CHAR(1)
+SET @valorOrdenamiento = ISNULL(@ordenamiento, 'A')
+PRINT @valorOrdenamiento
+~~~
+![ISNULL2](./SQLDATA/ISNULL1.png)
+
+
+#### Ejemplos para declarar Variables de distintos Tipos de Dato
+Estos son algunos ejemplos sobre cómo declarar Variables de distintos Tipos de Datos y evaluar valores Nulos:
+
+~~~
+DECLARE @entero INT
+SET @entero = NULL
+SELECT ISNULL(@entero, 0) AS Valor
+
+DECLARE @decimal DECIMAL(10,2)
+SET @decimal = NULL
+SELECT ISNULL(@decimal, 0.00) AS Valor
+
+DECLARE @cadena VARCHAR(50)
+SET @cadena = NULL
+SELECT ISNULL(@cadena, 'Texto predeterminado') AS Valor
+
+DECLARE @fecha DATETIME
+SET @fecha = NULL
+SELECT ISNULL(@fecha, GETDATE()) AS Valor
+
+DECLARE @booleano BIT
+SET @booleano = NULL
+SELECT ISNULL(@booleano, 0) AS Valor
+
+DECLARE @moneda MONEY
+SET @moneda = NULL
+SELECT ISNULL(@moneda, 0.00) AS Valor
+~~~
+
+### SUBCONSULTAS y ALIAS
+Se trata de un SELECT dentro de otro SELECT.
+Los ALIAS permiten darle nombre a cada tabla de una consulta. En el siguiente ejemplo, los ALIAS "ps" y "pa". Este alias permite que la subconsulta (que está entre paréntesis) pueda traer un **único campo** de País, permitiendo igualar los PK: ps.idPais = pa.idPais
+
+~~~
+SELECT apellido, nombre, idPais, observacion,
+	(SELECT Pais FROM Pais ps WHERE ps.idPais = pa.idPais) descPais
+FROM Paciente pa
+~~~
+
+Fuera de la SUBCONSULTA, se incluye el nombre de la columna que arroja *descPais*, de manera que esta tenga un nombre.
+
+[Subir](#top)
+## Sección 13. Estructuras de Control
+
+[Subir](#top)
+## Sección 14. Operadores aritméticos y de comparación

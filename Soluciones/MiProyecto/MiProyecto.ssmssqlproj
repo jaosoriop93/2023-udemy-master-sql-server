@@ -4,7 +4,7 @@
     <LogicalFolder Name="Connections" Type="2" Sorted="true">
       <Items>
         <ConnectionNode Name="DESKTOP-BLJKR65\MSSQLSERVER2022:sa">
-          <Created>2023-08-20T12:45:52.7814576-05:00</Created>
+          <Created>2023-09-03T21:32:04.3809098-05:00</Created>
           <Type>SQL</Type>
           <Server>DESKTOP-BLJKR65\MSSQLSERVER2022</Server>
           <UserName>sa</UserName>
@@ -19,11 +19,11 @@
     </LogicalFolder>
     <LogicalFolder Name="Queries" Type="0" Sorted="true">
       <Items>
-        <FileNode Name="SQLQuery3.sql">
+        <FileNode Name="SQLQuery1.sql">
           <AssociatedConnectionMoniker>8c91a03d-f9b4-46c0-a305-b5dcc79ff907:DESKTOP-BLJKR65\MSSQLSERVER2022:False:sa</AssociatedConnectionMoniker>
           <AssociatedConnSrvName>DESKTOP-BLJKR65\MSSQLSERVER2022</AssociatedConnSrvName>
           <AssociatedConnUserName>sa</AssociatedConnUserName>
-          <FullPath>SQLQuery3.sql</FullPath>
+          <FullPath>SQLQuery1.sql</FullPath>
         </FileNode>
       </Items>
     </LogicalFolder>
