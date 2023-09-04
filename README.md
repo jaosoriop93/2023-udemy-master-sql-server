@@ -98,8 +98,7 @@ git push -u origin master
 Al seguir trabajando en la carpeta
 cd Master_SQL_Server
 git status (para chequear si hay cambios)
-git add .
-git commit -m "Un comentario del commit"
+git commit -a -m "Un comentario del commit" (si hay cambios)
 git push -u origin master
 ~~~
 
@@ -397,7 +396,7 @@ Finalmente seleccionamos de la lista, las tablas requeridas, con la tecla CTLR +
 
 La tabla Pago Paciente se relaciona con las tablas Pago, Paciente y Turno, todas al mismo tiempo. Es por esto, que al abrir el editor de las relaciones, hacemos uso del boton *Add* hasta agregar 3 relaciones en esta tabla. En cada una, seleccionamos la tabla con que se crea la relación y, los demás campos de la tabla PagoPaciente se pasan al valor de *None*, de manera que solo se considere un valor en cada relación, como se muestra en la siguiente imagen.
 
-![Editar 3](SQLDATA/RelacionTablasIntermedias.jpg)
+![Tablas intermedias](./SQLDATA/RelacionTablasIntermedias.png)
 
 
 AL finalizar las relaciones, en el gráfico del DER, al dar clic derecho en el fondo del diagrama, y luego en *Arange table*, se reorganiza para verse de una forma más adecuada.
