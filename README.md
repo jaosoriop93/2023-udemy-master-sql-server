@@ -78,6 +78,12 @@
       - [Ejemplos para declarar Variables de distintos Tipos de Dato](#ejemplos-para-declarar-variables-de-distintos-tipos-de-dato)
     - [SUBCONSULTAS y ALIAS](#subconsultas-y-alias)
   - [Sección 13. Estructuras de Control](#sección-13-estructuras-de-control)
+    - [IF-ELSE y BEGIN-END](#if-else-y-begin-end)
+    - [EXISTS()](#exists)
+    - [WHILE](#while)
+    - [CASE](#case)
+    - [RETURN-BREAK](#return-break)
+    - [TRY-CATCH](#try-catch)
   - [Sección 14. Operadores aritméticos y de comparación](#sección-14-operadores-aritméticos-y-de-comparación)
 
 
@@ -1014,6 +1020,199 @@ Fuera de la SUBCONSULTA, se incluye el nombre de la columna que arroja *descPais
 
 [Subir](#top)
 ## Sección 13. Estructuras de Control
+Permiten evaluar condiciones y tomar decisiones
+
+### IF-ELSE y BEGIN-END
+Un condicional IF debe incluir dentro, cuando tiene más de una instrucción, un BEGIN-END para dar a entender todas las intrucciones que se deben de considerar.
+
+El siguiente código solo ejecutará, cuando el IF es verdadero, la primera línea "SELECT * FROM Paciente WHERE idPaciente=@IDPACIENTE".
+~~~
+DECLARE @IDPACIENTE INT
+DECLARE @IDTURNO INT
+
+SET @IDPACIENTE = 7
+
+IF @IDPACIENTE = 7
+	SET @IDTURNO = 20
+	SELECT * FROM Paciente WHERE idPaciente=@IDPACIENTE
+	PRINT @IDTURNO
+~~~
+
+Es por esto que debe incluirse un BEGIN-END
+~~~
+DECLARE @IDPACIENTE INT
+DECLARE @IDTURNO INT
+
+SET @IDPACIENTE = 7
+
+IF @IDPACIENTE = 7
+BEGIN
+	SET @IDTURNO = 20
+	SELECT * FROM Paciente WHERE idPaciente=@IDPACIENTE
+	PRINT @IDTURNO
+END
+~~~
+
+Para incorporar un ELSE, para cuando no se cumpla la condición:
+~~~
+DECLARE @IDPACIENTE INT
+DECLARE @IDTURNO INT
+
+SET @IDPACIENTE = 7
+
+IF @IDPACIENTE = 7
+	BEGIN
+		SET @IDTURNO = 20
+		SELECT * FROM Paciente WHERE idPaciente=@IDPACIENTE
+		PRINT @IDTURNO
+	END
+ELSE
+	BEGIN
+		PRINT 'No se cumplió la condición'
+	END
+~~~
+
+### EXISTS()
+Retorna VERDADERO o FALSO, dependiendo si existe o no, o si retorna o no, registros una consulta.
+
+~~~
+DECLARE @IDPACIENTE INT
+DECLARE @IDTURNO INT
+
+SET @IDPACIENTE = 7
+
+IF @IDPACIENTE = 7
+	BEGIN
+		SET @IDTURNO = 20
+		SELECT * FROM Paciente WHERE idPaciente=@IDPACIENTE
+		PRINT @IDTURNO
+		IF EXISTS(SELECT * FROM Paciente WHERE idPaciente=4)
+			PRINT 'Existe'
+	END
+~~~
+
+### WHILE
+Repetir hasta que se cumpla una condición
+~~~
+DECLARE @CONTADOR INT = 0
+WHILE @CONTADOR <= 10
+BEGIN
+	PRINT @CONTADOR
+	SET @CONTADOR = @CONTADOR + 1
+END
+~~~
+
+### CASE
+Bloque de la forma CASE-ELSE-END
+
+~~~
+DECLARE @VALOR INT
+DECLARE @RESULTADO CHAR(10)=''
+SET @VALOR = 20
+
+SET @RESULTADO = (
+	CASE
+		WHEN @VALOR = 10 THEN 'ROJO'
+		WHEN @VALOR = 20 THEN 'VERDE'
+		WHEN @VALOR = 30 THEN 'AZUL'
+		WHEN @VALOR = 10 THEN 'ROJO'
+		ELSE 'GRIS'
+	END
+)
+PRINT @RESULTADO
+~~~
+
+Puede usarse en un SELECT:
+~~~
+SELECT *, (CASE WHEN estado=1 THEN 'VERDE'
+			    WHEN estado=2 THEN 'ROJO'
+				WHEN estado=3 THEN 'AZUL'
+		   ELSE 'GRIS'
+		   END) as COLORTURNO FROM TURNO
+~~~
+
+### RETURN-BREAK
+Return: sale del código a la consola. No continúa le ejecución.
+~~~
+DECLARE @CONTADOR INT = 0
+WHILE @CONTADOR <= 10
+BEGIN
+	PRINT @CONTADOR
+	SET @CONTADOR = @CONTADOR + 1
+	IF @CONTADOR = 3
+		RETURN
+	PRINT 'HOLA1'
+END
+PRINT 'HOLA2'
+~~~
+![Return](./SQLDATA/RETURN.png)
+
+Break: Sale del bucle en que esté (o de la estructura de control donde esté)
+~~~
+DECLARE @CONTADOR INT = 0
+WHILE @CONTADOR <= 10
+BEGIN
+	PRINT @CONTADOR
+	SET @CONTADOR = @CONTADOR + 1
+	IF @CONTADOR = 3
+		BREAK
+	PRINT 'HOLA1'
+END
+PRINT 'HOLA2'
+~~~
+![Break](./SQLDATA/BREAK.png)
+
+
+### TRY-CATCH
+Permite maneja de errores en tiempo de ejecución. Errores no controlados, comúnmente.
+Requiere un primer bloque BEGIN TRY - END TRY, para que encuentre el error
+Luego, requiere otro bloque BEGIN CATCH-END CATCH, para que haga el manejo correspondiente.
+
+Un ejemplo:
+~~~
+DECLARE @CONTADOR INT = 0
+WHILE @CONTADOR <= 10
+BEGIN
+	PRINT @CONTADOR
+	SET @CONTADOR = @CONTADOR + 1
+	IF @CONTADOR = 3
+		BREAK
+	--PRINT 'HOLA1'
+END
+PRINT 'HOLA2'
+
+-- UN ERROR en tiempo de ejecución (CONTADOR es un INT)
+SET @CONTADOR = 'Prueba'
+
+/*
+Msg 245, Level 16, State 1, Line 124
+Conversion failed when converting the varchar value 'Prueba' to data type int.
+*/
+~~~
+
+Se soluciona de la siguiente forma
+~~~
+DECLARE @CONTADOR INT = 0
+WHILE @CONTADOR <= 10
+BEGIN
+	PRINT @CONTADOR
+	SET @CONTADOR = @CONTADOR + 1
+	IF @CONTADOR = 3
+		BREAK
+	--PRINT 'HOLA1'
+END
+PRINT 'HOLA2'
+
+BEGIN TRY
+	SET @CONTADOR = 'Prueba'
+END TRY
+
+BEGIN CATCH
+	PRINT 'No es posible asignar un texto a la variable @CONTADOR'
+END CATCH
+~~~
+![CATCH](./SQLDATA/CATCH.png)
+
 
 [Subir](#top)
 ## Sección 14. Operadores aritméticos y de comparación
