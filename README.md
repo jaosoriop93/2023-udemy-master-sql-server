@@ -1,4 +1,4 @@
-<a name="top"></a>
+<a name="arriba"></a>
 # Máster en SQL Server: Desde Cero a Nivel Profesional 2023
 
 - [Máster en SQL Server: Desde Cero a Nivel Profesional 2023](#máster-en-sql-server-desde-cero-a-nivel-profesional-2023)
@@ -87,7 +87,7 @@
   - [Sección 14. Operadores aritméticos y de comparación](#sección-14-operadores-aritméticos-y-de-comparación)
 
 
-[Subir](#top)
+[Subir](#arriba)
 ## Códigos de GIT usados
 ~~~
 git init
@@ -109,7 +109,7 @@ git push -u origin master
 ~~~
 
 
-[Subir](#top)
+[Subir](#arriba)
 ## Secciones 1 y 2. Introducción, instalación y SETUP
 ### Instalación de SQL Server
 Se descarga e instala el SQL Server, versión DEVELOPER
@@ -191,7 +191,7 @@ Aquí tienes una lista de algunos atajos de teclado muy utilizados en SQL Server
 - Ctrl + D: Modo de visualización de cuadrícula.
 - Ctrl + T: Modo de visualización de texto.
 
-[Subir](#top)
+[Subir](#arriba)
 ## Sección 3. Fundamentos y Estructura de Base de Datos
 Base de datos: símil con una biblioteca
 - Biblioteca: secciones, estantes, libros y las propiedades de cada libro (Título, Autor, Género, Año, ISBN.)
@@ -206,7 +206,7 @@ Un valor NULL representa la ausencia de un valor en una columna de una tabla. Es
 
 Los valores NULL son diferentes de los valores en blanco o los valores numéricos como el 0 (cero), ya que estos últimos son valores válidos que se pueden asignar a una columna. Por ejemplo, si una columna de la tabla de Impuestos, algunos de esos valores pueden contener 0 (cero), mientras que otros pueden no tener ningún valor de impuesto asignado aún, en cuyo caso la columna tendría el valor NULL.
 
-[Subir](#top)
+[Subir](#arriba)
 ### Primary Key (PK)
 [Recursos de la clase](./RecursosCurso/S04.PrimaryKey.pdf)
 
@@ -218,7 +218,7 @@ tabla.
 3. Una tabla puede tener más de un campo PK, a la que llamaremos CLAVE COMPUESTA
 4. Sea SIMPLE o COMPUESTA, cada tabla solo podrá tener una clave primaria (PRIMARY KEY). Es decir que sólo habrá una única clave primaria de ese tipo. No se podrá crear otra combinación.
 
-[Subir](#top)
+[Subir](#arriba)
 ### Foreign Key (FK)
 [Recursos de la clase 1](./RecursosCurso/S04.ForeignKey.pdf)
 [Recursos de la clase 2](./RecursosCurso/S04.Restricciones.pdf)
@@ -232,7 +232,7 @@ Definiciones y reglas generales
    1. Si no le incluyo ningún valor a un registro, no estoy violando las reglas del FK.
 3. Una tabla puede tener más de un campo FK
 
-[Subir](#top)
+[Subir](#arriba)
 ### Propiedad IDENTITY
 [Recurso de la clase](./RecursosCurso/S04.Identity.pdf)
 
@@ -247,7 +247,7 @@ Se usa de la siguiente forma, donde el primer valor es el SEED, y dice que arran
 [nombrecampo] [int] IDENTITY(1,1)
 ~~~
 
-[Subir](#top)
+[Subir](#arriba)
 ### Normalización de tablas
 [Recurso de la clase](./RecursosCurso/S04.Normalizacion2.pdf)
 Ventajas: 
@@ -275,7 +275,7 @@ Una Tabla está en Tercera Forma Normal si y sólo si está en 2FN y los atribut
 
 Para lograr esto, en el Recurso de clase, ya se analizó que no cumple la 2FN. Si se analiza en detalle los campos idMedico y medico, se identifica que si cambiamos el idMedico, se debe luego el nombre del médico, así que estos campos deben quitarse de esta tabla, no son atributos clave de esta tabla, tal vez de otra tabla, y aparte, cambiar uno implica cambiar otro atributo y que no es clave.
 
-[Subir](#top)
+[Subir](#arriba)
 ### Tipos de datos
 [Recurso de la clase](./RecursosCurso/S03-TiposdedatosSQL.pdf)
 Formato del valor que puede almacenarse en un campo de una tabla.
@@ -292,11 +292,11 @@ Los más usados:
 
 
 
-[Subir](#top)
+[Subir](#arriba)
 ## Sección 5. Relaciones y Restricciones entre tablas
 
 
-[Subir](#top)
+[Subir](#arriba)
 ## Sección 5. Relaciones y Restricciones entre tablas
 
 ### Conceptos de Relaciones entre Tablas
@@ -439,7 +439,7 @@ Siguiendo el método explicado en las clases anteriores, deberás eliminar la re
 
 Recuerda que la tabla PacienteInfo fué creada para citar un ejemplo de restricción y si no la tienes en tu base de datos, puedes omitir este ejercicio.
 
-[Subir](#top)
+[Subir](#arriba)
 ## Sección 6. Manipulación de registros DML con INSERT y SELECT
 
 ### Añadir registros a una tabla
@@ -554,7 +554,7 @@ INSERT INTO PagoPaciente VALUES
 
 ~~~
 
-[Subir](#top)
+[Subir](#arriba)
 ## Sección 7. Cláusulas SQL
 
 ### TOP
@@ -610,7 +610,7 @@ SELECT * FROM Paciente where idPais='MEX'
 SELECT * FROM Paciente where apellido='López'
 ~~~
 
-[Subir](#top)
+[Subir](#arriba)
 ## Sección 8. Manipulación de registros DML con UPDATE y DELETE
 
 ### UPDATE
@@ -686,7 +686,7 @@ Cannot insert the value NULL into column 'nombre', table 'CentroMedico.dbo.Medic
 The statement has been terminated.
 ~~~
 
-[Subir](#top)
+[Subir](#arriba)
 ## Sección 9. Ejercicios Complementarios
 ~~~
 -- Insetar en TurnoEstado para validar IDENTITY
@@ -700,7 +700,7 @@ SELECT * FROM Paciente
 SELECT TOP 1 * FROM Paciente ORDER BY fNacimiento DESC
 ~~~
 
-[Subir](#top)
+[Subir](#arriba)
 ## Sección 10. Funciones de Agregado
 
 ### MAX Y MIN
@@ -776,7 +776,7 @@ SELECT estado FROM Turno GROUP BY estado HAVING COUNT(estado) < 3
 
 ![Having 4](./SQLDATA/HAVING4.png)
 
-[Subir](#top)
+[Subir](#arriba)
 ## Sección 11. Operadores Lógicos
 
 ### AND
@@ -873,7 +873,7 @@ SELECT * FROM Paciente WHERE nombre='Jorge' AND (apellido='Ramírez' OR idPais =
 SELECT * FROM Paciente WHERE nombre='Jorge' AND idPaciente NOT IN(3,6, 18)
 ~~~
 
-[Subir](#top)
+[Subir](#arriba)
 ## Sección 12. Stored Procedures, Variables y Subconsultas
 
 ### Stored Procedures
@@ -1018,7 +1018,7 @@ FROM Paciente pa
 
 Fuera de la SUBCONSULTA, se incluye el nombre de la columna que arroja *descPais*, de manera que esta tenga un nombre.
 
-[Subir](#top)
+[Subir](#arriba)
 ## Sección 13. Estructuras de Control
 Permiten evaluar condiciones y tomar decisiones
 
@@ -1214,5 +1214,5 @@ END CATCH
 ![CATCH](./SQLDATA/CATCH.png)
 
 
-[Subir](#top)
+[Subir](#arriba)
 ## Sección 14. Operadores aritméticos y de comparación
